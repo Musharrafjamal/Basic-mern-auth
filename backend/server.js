@@ -1,4 +1,3 @@
-const bodyParser = require("body-parser");
 const express = require("express");
 const mongoose = require("mongoose");
 const authMiddleware = require("./middleware/auth");
@@ -8,15 +7,20 @@ const cors = require("cors");
 const app = express();
 
 // Connect to MongoDB using Mongoose
-mongoose.connect(
-  "mongodb+srv://musharrafjamal92:Zg3NQbNL8AsZqhQb@cluster0.dlalseg.mongodb.net/auth?retryWrites=true&w=majority"
-).then(() => {
-  console.log('connected to mongoDB')
-}).catch(err => console.log("Error on connection to mongoDB", err))
+mongoose
+  .connect(
+    "mongodb+srv://musharrafjamal92:Zg3NQbNL8AsZqhQb@cluster0.dlalseg.mongodb.net/?retryWrites=true&w=majority",
+    { dbName: "auth" }
+  )
+  .then(() => {
+    console.log("connected to mongoDB");
+  })
+  .catch((err) => console.log("Error on connection to mongoDB", err));
 
 // Middlewares
 app.use(cors());
-app.use(bodyParser.json());
+app.use(express.json({ limit: '500mb' })); 
+app.use(express.urlencoded({ extended: true, limit: '500mb' }));
 app.use("/auth", authRoutes);
 
 // Define a simple route

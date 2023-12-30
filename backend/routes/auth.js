@@ -2,6 +2,7 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../model/model");
+const ImgModel = require("../model/uploadImgModel");
 
 const router = express.Router();
 
@@ -34,6 +35,17 @@ router.post("/login", async (req, res) => {
     res.json({ token });
   } catch (err) {
     res.send("Error while login user", err.message);
+  }
+});
+
+router.post("/uploads", async (req, res) => {
+  const body = req.body.file;
+  try {
+    const newImage = new ImgModel({ file: body });
+    await newImage.save();
+    res.status(201).json({ msg: "New image uploaded...!" });
+  } catch (error) {
+    res.status(409).json({ message: error.message });
   }
 });
 

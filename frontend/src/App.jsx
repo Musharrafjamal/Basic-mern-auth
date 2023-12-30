@@ -5,6 +5,7 @@ import Page1 from "./pages/Page1";
 import Page2 from "./pages/Page2";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
+import UploadImg from "./pages/UploadImg";
 
 const App = () => {
   // Check if the user is authenticated (you can implement this using state, context, or other methods)
@@ -20,13 +21,19 @@ const App = () => {
         <Route
           path="/page1"
           element={
-            isAuthenticated ? <Page1 /> : <Navigate to="/login" replace />
+            isAuthenticated ? <Page1 /> : <Login />
           }
         />
         <Route
           path="/page2"
           element={
-            isAuthenticated ? <Page2 /> : <Navigate to="/login" replace />
+            isAuthenticated ? <Page2 /> : <Login />
+          }
+        />
+        <Route
+          path="/upload"
+          element={
+            isAuthenticated ? <UploadImg /> : <Login />
           }
         />
         <Route path="*" element={<Navigate to="/" replace />} />
