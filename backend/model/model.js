@@ -11,6 +11,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  profilePic: String,
 });
 
 userSchema.pre("save", async function (next) {

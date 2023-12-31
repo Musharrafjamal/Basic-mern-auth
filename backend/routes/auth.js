@@ -8,8 +8,9 @@ const router = express.Router();
 
 router.post("/register", async (req, res) => {
   try {
-    const { username, password } = req.body;
-    const user = new User({ username, password });
+    const { username, password, profilePic } = req.body;
+    const user = new User({ username, password, profilePic: profilePic });
+    // console.log(user)
     await user.save();
     res.status(200).send("User registered successfully");
   } catch (err) {
@@ -32,21 +33,22 @@ router.post("/login", async (req, res) => {
     }
 
     const token = jwt.sign({ userId: user._id }, "my_secret_key");
-    res.json({ token });
+    res.json({ token, profilePic: user.profilePic });
   } catch (err) {
     res.send("Error while login user", err.message);
   }
 });
 
-router.post("/uploads", async (req, res) => {
-  const body = req.body.file;
-  try {
-    const newImage = new ImgModel({ file: body });
-    await newImage.save();
-    res.status(201).json({ msg: "New image uploaded...!" });
-  } catch (error) {
-    res.status(409).json({ message: error.message });
-  }
-});
+// router.get('/', (req, res) => {
+//     try{
+//         User.find({}).then(data => {
+//             res.json(data)
+//         }).catch(error => {
+//             res.status(408).json({ error })
+//         })
+//     }catch(error){
+//         res.json({error})
+//     }
+// })
 
 module.exports = router;

@@ -24,7 +24,7 @@ app.use(express.urlencoded({ extended: true, limit: '500mb' }));
 app.use("/auth", authRoutes);
 
 // Define a simple route
-app.get("/protected-route", authMiddleware, (req, res) => {
+app.get("/auth", authMiddleware, (req, res) => {
   res.send("This is a protected route");
 });
 
